@@ -43,7 +43,7 @@ Follow these steps to launch your own personal website using this repo as a temp
 - Your site will be live at `https://YourUsername.github.io` within a few minutes.
 
 ### 6. Add a custom domain (optional)
-- In the same **Pages** settings, enter your custom domain.
+- In the same **Pages** settings, enter your custom domain. (you can get a free subdomain at int.yt)
 - Don't forget to update your DNS records with your provider.
 
 ---
