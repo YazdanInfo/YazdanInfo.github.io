@@ -1,2 +1,2 @@
 # YazdanInfo.github.io
-** files for my hithub pages personal site **
+ files for my github pages personal site 
