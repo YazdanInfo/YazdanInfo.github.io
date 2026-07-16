@@ -52,6 +52,16 @@
             line-height: 1.8;
         }
 
+        .js-badge {
+            font-size: 0.9em;
+            color: #f7df1e;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+        }
+
         .links {
             display: flex;
             gap: 15px;
@@ -108,6 +118,10 @@
             Hi! I'm YazdanInfo. This is my personal website. Feel free to explore and get in touch!
         </p>
 
+        <div class="js-badge">
+            🚀 Powered by JavaScript - This site is built with pure HTML, CSS, and JavaScript!
+        </div>
+
         <div class="links">
             <a href="https://github.com/YazdanInfo" target="_blank">GitHub</a>
             <a href="https://twitter.com" target="_blank">Twitter</a>
@@ -138,6 +152,12 @@
         else greeting = 'Good evening';
         
         console.log(greeting + '!');
+
+        // JavaScript detection - Shows this site uses JavaScript
+        console.log('✨ This website proudly uses JavaScript for interactivity!');
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('JavaScript is running successfully on this page!');
+        });
     </script>
 </body>
 </html>
