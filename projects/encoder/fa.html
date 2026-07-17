@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="پیام‌ها رو تو دو مرحله رمزگذاری کن: متن → بیس۶۴ → هگز. ابزار رایگان آنلاین با پشتیبانی دو‌زبانه." />
+    <meta property="og:title" content="رمزگذار دو مرحله‌ای – بیس۶۴ و هگز" />
+    <title>رمزگذار و رمزگشای دو مرحله‌ای (بیس۶۴ و هگز)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            max-width: 960px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #f4f6f8;
+            color: #1a1f2b;
+            position: relative;
+        }
+
+        .lang-switch {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 40px;
+            padding: 8px 18px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1e293b;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.2s;
+            z-index: 999;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .lang-switch:hover {
+            background: #f1f5f9;
+            border-color: #94a3b8;
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+        .lang-switch:active {
+            transform: scale(0.96);
+        }
+
+        h1 {
+            font-weight: 600;
+            font-size: 2rem;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        h1 small {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #475569;
+            background: #e9edf2;
+            padding: 2px 14px;
+            border-radius: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 24px 28px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.04);
+            margin-bottom: 28px;
+            border-inline-start: 6px solid transparent;
+            position: relative;
+        }
+        .card-encode { border-inline-start-color: #2e7d32; }
+        .card-decode { border-inline-start-color: #b71c1c; }
+        .card-about { border-inline-start-color: #6b7280; background: #fafbfc; }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .card-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            padding: 2px 12px;
+            border-radius: 30px;
+            background: #e9edf2;
+            color: #334155;
+        }
+        .badge-green { background: #e8f5e9; color: #1b5e20; }
+        .badge-red   { background: #ffebee; color: #b71c1c; }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            align-items: flex-end;
+        }
+        .col {
+            flex: 1 1 180px;
+            min-width: 150px;
+        }
+        .col-wide {
+            flex: 2 1 260px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            color: #334155;
+        }
+
+        textarea, input {
+            width: 100%;
+            font-size: 0.95rem;
+            padding: 10px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            resize: vertical;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            background: #fafbfc;
+            transition: border 0.2s, box-shadow 0.2s;
+        }
+        textarea:focus, input:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+        }
+        .input-area { min-height: 64px; }
+        .output-area {
+            min-height: 64px;
+            background: #f1f5f9;
+            color: #0b1120;
+            border-color: #e2e8f0;
+            cursor: default;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 28px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.05s;
+            margin-top: 6px;
+            color: white;
+        }
+        .btn:active { transform: scale(0.97); }
+        .btn-green { background: #2e7d32; }
+        .btn-green:hover { background: #1b5e20; }
+        .btn-red { background: #b71c1c; }
+        .btn-red:hover { background: #8b0000; }
+        .btn-gray { background: #64748b; }
+        .btn-gray:hover { background: #475569; }
+        .btn-sm {
+            padding: 4px 14px;
+            font-size: 0.75rem;
+            margin-top: 4px;
+        }
+
+        .status {
+            font-size: 0.85rem;
+            margin-top: 6px;
+            min-height: 1.4em;
+        }
+        .status.ok { color: #2e7d32; }
+        .status.err { color: #b71c1c; }
+
+        .char-count {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 4px;
+            text-align: left;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px dashed #e2e8f0;
+            margin: 18px 0 20px 0;
+        }
+
+        .about-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 1.2em 0 0.2em 0;
+            color: #1e293b;
+        }
+        .about-content h3:first-of-type {
+            margin-top: 0;
+        }
+        .about-content p {
+            margin: 0.5em 0 0.8em 0;
+            line-height: 1.8;
+            color: #334155;
+        }
+        .about-content .qa-block {
+            background: #f1f4f9;
+            border-radius: 12px;
+            padding: 4px 18px 12px 18px;
+            margin: 12px 0 0 0;
+            border-inline-start: 4px solid #b71c1c;
+        }
+        .about-content .qa-block p {
+            margin: 0.5em 0;
+        }
+        .about-content .qa-block strong {
+            color: #1e293b;
+        }
+        .about-content hr {
+            margin: 20px 0 16px 0;
+            border-color: #e2e8f0;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 640px) {
+            .row { flex-direction: column; align-items: stretch; }
+            .col { flex: 1 1 auto; }
+            .lang-switch {
+                top: 10px;
+                right: 10px;
+                padding: 6px 14px;
+                font-size: 0.85rem;
+            }
+            body { margin: 15px auto; padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="https://yazdaninfo.github.io/projects/encoder/en.html" class="lang-switch" target="_blank">
+        🇺🇸 English
+    </a>
+
+    <div id="toast" class="toast">📋 کپی شد!</div>
+
+    <h1>
+        🔁 رمزگذار و رمزگشای دو مرحله‌ای
+        <small>متن → بیس‌۶۴ → هگز</small>
+    </h1>
+
+    <!-- ============ بخش رمزگذاری ============ -->
+    <div class="card card-encode">
+        <div class="card-header">
+            <h2>
+                <span>🟢</span> رمزگذاری
+                <span class="badge badge-green">مرحله ۱ → مرحله ۲</span>
+            </h2>
+            <div>
+                <button class="btn btn-gray btn-sm" onclick="clearAll()">🗑️ پاک کردن</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-wide">
+                <label for="plainInput">پیام ساده</label>
+                <textarea id="plainInput" class="input-area" placeholder="پیامت رو اینجا بنویس…" oninput="updateCharCount()">سلام، دنیا! 🌍</textarea>
+                <div class="char-count" id="charCount">۱۴ کاراکتر</div>
+            </div>
+            <div class="col" style="display: flex; align-items: center; justify-content: flex-start;">
+                <button class="btn btn-green" onclick="doEncode()">⬆ رمزگذاری</button>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="row">
+            <div class="col">
+                <label>واسط · بیس‌۶۴</label>
+                <textarea id="b64Out" class="output-area" readonly></textarea>
+                <button class="btn btn-gray btn-sm" onclick="copyToClipboard('b64Out')">📋 کپی</button>
+            </div>
+            <div class="col">
+                <label>نهایی · هگزادسیمال (از رشتهٔ بیس‌۶۴)</label>
+                <textarea id="hexOut" class="output-area" readonly></textarea>
+                <button class="btn btn-gray btn-sm" onclick="copyToClipboard('hexOut')">📋 کپی</button>
+            </div>
+        </div>
+        <div id="encodeStatus" class="status ok">آماده</div>
+    </div>
+
+    <!-- ============ بخش رمزگشایی ============ -->
+    <div class="card card-decode">
+        <div class="card-header">
+            <h2>
+                <span>🔴</span> رمزگشایی
+                <span class="badge badge-red">هگز → بیس‌۶۴ → متن</span>
+            </h2>
+        </div>
+
+        <div class="row">
+            <div class="col col-wide">
+                <label for="hexInput">رشتهٔ هگزادسیمال (از بالا)</label>
+                <textarea id="hexInput" class="input-area" placeholder="مقدار هگز رو اینجا بچسبون…"></textarea>
+            </div>
+            <div class="col" style="display: flex; align-items: center; justify-content: flex-start;">
+                <button class="btn btn-red" onclick="doDecode()">⬇ رمزگشایی</button>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="row">
+            <div class="col">
+                <label>واسط · بیس‌۶۴</label>
+                <textarea id="b64DecodedOut" class="output-area" readonly></textarea>
+                <button class="btn btn-gray btn-sm" onclick="copyToClipboard('b64DecodedOut')">📋 کپی</button>
+            </div>
+            <div class="col">
+                <label>پیام بازیابی‌شده</label>
+                <textarea id="plainOut" class="output-area" readonly></textarea>
+                <button class="btn btn-gray btn-sm" onclick="copyToClipboard('plainOut')">📋 کپی</button>
+            </div>
+        </div>
+        <div id="decodeStatus" class="status ok">آماده</div>
+    </div>
+
+    <!-- ============ بخش درباره ============ -->
+    <div class="card card-about">
+        <div class="card-header">
+            <h2>
+                <span>📖</span> دربارهٔ این ابزار
+            </h2>
+        </div>
+        <div class="about-content">
+            
+            <h3>این چیه؟</h3>
+            <p>
+                این یه رمزگذار پیام آنلاین هست که متن شما رو تو دو مرحلهٔ پشت‌سرهم تبدیل می‌کنه: 
+                متن ساده → بیس‌۶۴ → هگزادسیمال (و برعکس).
+            </p>
+
+            <h3>ایده‌ش از کجا اومد؟</h3>
+            <p>
+                این ماجرا از اونجا شروع شد که منو یکی از دوستام خواستیم تو یه گروه‌چت چیزی بگیم 
+                و بقیه نفهمن داریم چیا می‌گیم. به یه راه سریع و بازیگوشانه نیاز داشتیم 
+                که پیام‌هامون رو مبهم کنه — به خاطر همین این رو ساختیم.
+            </p>
+
+            <h3>میشه ازش برای پسورد استفاده کرد؟</h3>
+            <p>
+                صد درصد. می‌تونی از این رمزگذار برای ساختن یه پسورد قوی‌تر استفاده کنی. 
+                کافیه یه رشتهٔ تصادفی از اعداد و کلمات رو رمزگذاری کنی تا یه رشتهٔ بلندتر 
+                و تصادفی‌تر به دست بیاری — که برای ساختن پسورد عالیه.
+            </p>
+
+            <hr />
+
+            <div class="qa-block">
+                <p><strong>❓ آیا این امنه؟</strong></p>
+                <p>
+                    <strong>نه.</strong> این فقط یه رمزگذار (اِنکودر) هست، نه رمزنگاری (اِنکریپشن). 
+                    هر کسی که به این سایت (یا ابزارهای رمزگشایی دیگه) دسترسی داشته باشه 
+                    می‌تونه پیامتو بخونه. از این برای داده‌های حساس استفاده نکن — 
+                    این فقط برای تفریح و مبهم‌سازی معمولی ساخته شده، نه برای امنیت واقعی.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <div style="font-size:0.8rem; color:#64748b; text-align:center; border-top:1px solid #e2e8f0; padding-top:20px;">
+        ⚡ همهٔ متن‌ها با UTF‑۸ کد شدن. هگزادسیمال با حروف بزرگ و پشت‌سرهم نوشته می‌شه.
+    </div>
+
+    <script>
+        function showToast(message = '📋 کپی شد!') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function copyToClipboard(id) {
+            const el = document.getElementById(id);
+            if (!el.value) {
+                showToast('⚠️ چیزی برای کپی نیست');
+                return;
+            }
+            navigator.clipboard.writeText(el.value).then(() => {
+                showToast('📋 کپی شد!');
+            }).catch(() => {
+                el.select();
+                document.execCommand('copy');
+                showToast('📋 کپی شد!');
+            });
+        }
+
+        function updateCharCount() {
+            const el = document.getElementById('plainInput');
+            const count = el.value.length;
+            document.getElementById('charCount').textContent = 
+                count + (count === 1 ? ' کاراکتر' : ' کاراکتر');
+        }
+
+        function clearAll() {
+            document.getElementById('plainInput').value = '';
+            document.getElementById('b64Out').value = '';
+            document.getElementById('hexOut').value = '';
+            document.getElementById('hexInput').value = '';
+            document.getElementById('b64DecodedOut').value = '';
+            document.getElementById('plainOut').value = '';
+            document.getElementById('encodeStatus').className = 'status ok';
+            document.getElementById('encodeStatus').textContent = 'آماده';
+            document.getElementById('decodeStatus').className = 'status ok';
+            document.getElementById('decodeStatus').textContent = 'آماده';
+            updateCharCount();
+            showToast('🗑️ همه چیز پاک شد');
+        }
+
+        function encodeToBase64(str) {
+            const bytes = new TextEncoder().encode(str);
+            let binary = '';
+            for (let i = 0; i < bytes.length; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return btoa(binary);
+        }
+
+        function decodeBase64(b64) {
+            const binary = atob(b64);
+            const bytes = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) {
+                bytes[i] = binary.charCodeAt(i);
+            }
+            return new TextDecoder().decode(bytes);
+        }
+
+        function stringToHex(str) {
+            const bytes = new TextEncoder().encode(str);
+            let hex = '';
+            for (let i = 0; i < bytes.length; i++) {
+                hex += bytes[i].toString(16).padStart(2, '0').toUpperCase();
+            }
+            return hex;
+        }
+
+        function hexToString(hex) {
+            if (hex.length % 2 !== 0) {
+                throw new Error('رشتهٔ هگزادسیمال باید تعداد کاراکتر زوج داشته باشه.');
+            }
+            const bytes = new Uint8Array(hex.length / 2);
+            for (let i = 0; i < hex.length; i += 2) {
+                const byte = parseInt(hex.substring(i, i + 2), 16);
+                if (isNaN(byte)) {
+                    throw new Error('کاراکتر هگزادسیمال نامعتبر.');
+                }
+                bytes[i / 2] = byte;
+            }
+            return new TextDecoder().decode(bytes);
+        }
+
+        function doEncode() {
+            const plain = document.getElementById('plainInput').value;
+            const status = document.getElementById('encodeStatus');
+
+            if (!plain) {
+                status.className = 'status err';
+                status.textContent = '❌ لطفاً یه پیام وارد کن.';
+                return;
+            }
+
+            try {
+                const b64 = encodeToBase64(plain);
+                document.getElementById('b64Out').value = b64;
+
+                const hex = stringToHex(b64);
+                document.getElementById('hexOut').value = hex;
+
+                document.getElementById('hexInput').value = hex;
+
+                status.className = 'status ok';
+                status.textContent = '✅ با موفقیت رمزگذاری شد.';
+            } catch (e) {
+                status.className = 'status err';
+                status.textContent = '❌ ' + e.message;
+            }
+        }
+
+        function doDecode() {
+            const hex = document.getElementById('hexInput').value.trim();
+            const status = document.getElementById('decodeStatus');
+
+            if (!hex) {
+                status.className = 'status err';
+                status.textContent = '❌ لطفاً یک رشتهٔ هگزادسیمال وارد کن.';
+                return;
+            }
+
+            try {
+                const b64 = hexToString(hex);
+                document.getElementById('b64DecodedOut').value = b64;
+
+                const plain = decodeBase64(b64);
+                document.getElementById('plainOut').value = plain;
+
+                status.className = 'status ok';
+                status.textContent = '✅ با موفقیت رمزگشایی شد.';
+            } catch (e) {
+                status.className = 'status err';
+                status.textContent = '❌ ' + e.message;
+            }
+        }
+
+        document.getElementById('hexInput').addEventListener('input', function() {
+            const val = this.value.trim();
+            if (val.length > 0 && val.length % 2 === 0 && /^[0-9A-Fa-f]+$/.test(val)) {
+                clearTimeout(this._decodeTimer);
+                this._decodeTimer = setTimeout(() => {
+                    if (document.getElementById('hexInput').value.trim() === val) {
+                        doDecode();
+                    }
+                }, 600);
+            }
+        });
+
+        window.addEventListener('load', function() {
+            doEncode();
+            updateCharCount();
+        });
+    </script>
+
+</body>
+</html>
