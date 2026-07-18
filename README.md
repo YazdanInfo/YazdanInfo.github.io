@@ -64,7 +64,10 @@ Follow these steps to launch your own personal website using this repo as a temp
 ├── index.html          # Main HTML file
 ├── style.css           # Stylesheets (if any)
 ├── script.js           # JavaScript files (if any)
-└── assets/             # Images, fonts, etc. (if any)
+└── assets/         # Images, fonts, etc. (if any)
+├projects
+        └── encoder
+
 
 ```
 
