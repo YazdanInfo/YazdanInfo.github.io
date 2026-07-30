@@ -8,7 +8,7 @@ My personal GitHub Pages website – use this repository as a **structural refer
 
 ## About
 
-This repo contains the source code for my personal site at [YazdanInfo.github.io](https://YazdanInfo.github.io/en
+This repo contains the source code for my personal site at [YazdanInfo.github.io](https://YazdanInfo.github.io/en).
 Feel free to explore the file structure, HTML, CSS, and JS to see how everything fits together for a GitHub Pages website .
 
 ---
@@ -64,9 +64,12 @@ Follow these steps to launch your own personal website using this repo as a temp
 ├── index.html          # Main HTML file
 ├── style.css           # Stylesheets (if any)
 ├── script.js           # JavaScript files (if any)
-└── assets/         # Images, fonts, etc. (if any)
-├projects
+├──assets/         # Images, fonts, etc. (if any)
+├──projects
         └── encoder
+                   ├──index.html
+                   └──en
+                         └── index.html
 
 
 ```
