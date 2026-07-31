@@ -9,17 +9,17 @@ My personal GitHub Pages website – use this repository as a **structural refer
 
 
 
+![Stars](https://img.shields.io/github/stars/yazdaninfo/yazdaninfo.github.io)
+
+
+
+
 ![Issues](https://img.shields.io/github/issues/yazdaninfo/yazdaninfo.github.io)
 
 
 
 
 ![Last Commit](https://img.shields.io/github/last-commit/yazdaninfo/yazdaninfo.github.io)
-
-
-
-
-![License](https://img.shields.io/github/license/yazdaninfo/yazdaninfo.github.io)
 
 
 
@@ -34,7 +34,7 @@ My personal GitHub Pages website – use this repository as a **structural refer
 
 
 
-![Website](https://img.shields.io/website?url=https%3A%2F%2Fyazdaninfo.github.io)
+![Website](https://img.shields.io/website?url=https://yazdaninfo.github.io)
 ---
 
 ## About
