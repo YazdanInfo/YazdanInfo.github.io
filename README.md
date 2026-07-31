@@ -5,29 +5,19 @@
 My personal GitHub Pages website – use this repository as a **structural reference** to build your own!
 
 
-![Stars](https://img.shields.io/github/stars/yazdaninfo/yazdaninfo.github.io)
+![Stars]
 
-](https://github.com/yazdaninfo/yazdaninfo.github.io/stargazers)
-[
 
-![Issues](https://img.shields.io/github/issues/yazdaninfo/yazdaninfo.github.io)
+![Issues]
 
-](https://github.com/yazdaninfo/yazdaninfo.github.io/issues)
-[
+![Pull Requests]
 
-![Pull Requests](https://img.shields.io/github/issues-pr/yazdaninfo/yazdaninfo.github.io)
 
-](https://github.com/yazdaninfo/yazdaninfo.github.io/pulls)
-[
 
-![Last Commit](https://img.shields.io/github/last-commit/yazdaninfo/yazdaninfo.github.io)
+![Last Commit]
 
-](https://github.com/yazdaninfo/yazdaninfo.github.io/commits/main)
-[
+![Repo Size]
 
-![Repo Size](https://img.shields.io/github/repo-size/yazdaninfo/yazdaninfo.github.io)
-
-](https://github.com/yazdaninfo/yazdaninfo.github.io)
 
 ---
 
