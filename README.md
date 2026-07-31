@@ -3,7 +3,7 @@
 # YazdanInfo.github.io
 
 My personal GitHub Pages website – use this repository as a **structural reference** to build your own!
-[
+
 
 ![Stars](https://img.shields.io/github/stars/yazdaninfo/yazdaninfo.github.io)
 ![Issues](https://img.shields.io/github/issues/yazdaninfo/yazdaninfo.github.io)
