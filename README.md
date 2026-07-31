@@ -3,22 +3,13 @@
 # YazdanInfo.github.io
 
 My personal GitHub Pages website – use this repository as a **structural reference** to build your own!
+[
 
-
-![Stars]
-
-
-![Issues]
-
-![Pull Requests]
-
-
-
-![Last Commit]
-
-![Repo Size]
-
-
+![Stars](https://img.shields.io/github/stars/yazdaninfo/yazdaninfo.github.io)
+![Issues](https://img.shields.io/github/issues/yazdaninfo/yazdaninfo.github.io)
+![Pull Requests](https://img.shields.io/github/issues-pr/yazdaninfo/yazdaninfo.github.io)
+![Last Commit](https://img.shields.io/github/last-commit/yazdaninfo/yazdaninfo.github.io)
+![Repo Size](https://img.shields.io/github/repo-size/yazdaninfo/yazdaninfo.github.io)
 ---
 
 ## About
