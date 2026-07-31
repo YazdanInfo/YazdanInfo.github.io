@@ -28,7 +28,6 @@ My personal GitHub Pages website – use this repository as a **structural refer
 
 
 
-
 ![Top Language](https://img.shields.io/github/languages/top/yazdaninfo/yazdaninfo.github.io)
 ---
 
