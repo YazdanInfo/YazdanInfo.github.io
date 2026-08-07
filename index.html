@@ -10,7 +10,7 @@
 
 <!-- ── SEO Core ── -->
 <title>یزدان خدایی‌فر | Yazdan Khodaifar — توسعه‌دهنده و گیمر</title>
-<meta name="description" content="صفحه شخصی یزدان خدایی‌فر — توسعه‌دهنده نرم‌افزار، گیمر حرفه‌ای و عاشق لینوکس. لینک‌های گیت‌هاب، تلگرام، اینستاگرام، ایکس‌باکس و دیگر." />
+<meta name="description" content="صفحه شخصی یزدان خدایی‌فر — توسعه‌دهنده نرم‌افزار، گیمر حرفه‌ای و عاشق لینوکس. لینک‌ه�[...]" />
 <meta name="keywords" content="یزدان خدایی‌فر, Yazdan Khodaifar, yazdaninfo, توسعه‌دهنده, گیمر, لینوکس, GitHub, تلگرام, اینستاگرام, Xbox" />
 <meta name="author" content="Yazdan Khodaifar" />
 <meta name="robots" content="index, follow" />
@@ -344,7 +344,7 @@
 
   .card-text {
     flex: 1;
-    text-align: right;
+    text-align: left;
     min-width: 0;
   }
   .card-label {
@@ -358,7 +358,7 @@
     transition: color .25s ease;
   }
   .card-handle {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: .7rem;
     color: rgba(255,255,255,.3);
     margin-top: 3px;
@@ -380,7 +380,7 @@
     width: 100%;
     padding: 32px 0 28px;
     text-align: center;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: .6rem;
     letter-spacing: .22em;
     text-transform: uppercase;
@@ -398,18 +398,18 @@
     gap: 6px;
     padding: 7px 14px;
     border-radius: 8px;
-    background: rgba(20,8,8,.80);
+    background: rgba(20,8,8,.85);
     border: 1px solid rgba(255,255,255,.12);
-    color: rgba(255,255,255,.75);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: .75rem;
-    font-weight: 700;
-    letter-spacing: .04em;
+    color: rgba(255,255,255,.8);
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: .8rem;
+    font-weight: 600;
     text-decoration: none;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     box-shadow: 0 2px 14px rgba(0,0,0,.4);
-    transition: background .2s ease, border-color .2s ease, color .2s ease;
+    transition: background .2s, border-color .2s, color .2s;
+    white-space: nowrap;
   }
   .lang-btn:hover {
     background: rgba(255,255,255,.08);
@@ -419,7 +419,8 @@
 </style>
 </head>
 <body>
-<a class="lang-btn" href="https://yazdaninfo.github.io/en" aria-label="Switch to English version">🇺🇸 English</a>
+<a class="lang-btn" href="https://yazdaninfo.github.io/" aria-label="Switch to Farsi version">🇮🇷 Farsi</a>
+
 <div class="page">
   <div class="ember-glow" aria-hidden="true"></div>
   <div class="cool-glow"  aria-hidden="true"></div>
@@ -467,7 +468,7 @@
         <div class="icon-wrap"><i class="fa-brands fa-instagram icon" aria-hidden="true"></i></div>
         <div class="card-text"><div class="card-label">اینستاگرام</div><span class="card-handle">@codedYazdan</span></div>
       </a>
-      <a class="card b-xbox"      style="animation-delay:.42s" href="https://account.xbox.com/en-us/profile?gamertag=yazdan000gamer" target="_blank" rel="noopener noreferrer" aria-label="Xbox: yazdan000gamer">
+      <a class="card b-xbox"      style="animation-delay:.42s" href="https://account.xbox.com/en-us/profile?gamertag=yazdan000gamer" target="_blank" rel="noopener noreferrer" aria-label="Xbox: ya[...]">
         <div class="icon-wrap"><i class="fa-brands fa-xbox icon" aria-hidden="true"></i></div>
         <div class="card-text"><div class="card-label">Xbox</div><span class="card-handle">@yazdan000gamer</span></div>
       </a>
@@ -480,13 +481,22 @@
     <!-- Projects Section -->
     <div class="section-title">🚀 پروژه‌ها</div>
     <div class="projects">
-      <a class="card b-project"   style="animation-delay:.58s" href="https://yazdaninfo.github.io/projects/encoder/" target="_blank" rel="noopener noreferrer" aria-label="Encoder: رمزگذار پیام">
+      <a class="card b-project"   style="animation-delay:.58s" href="https://yazdaninfo.github.io/projects/encoder/" target="_blank" rel="noopener noreferrer" aria-label="Encoder: رمزگذار [...]">
         <div class="icon-wrap"><i class="fa-solid fa-lock icon" aria-hidden="true"></i></div>
         <div class="card-text">
           <div class="card-label">Encoder</div>
           <span class="card-description">رمزگذار پیام که متن شما رو تو دو مرحلهٔ تبدیل می‌کنه</span>
         </div>
       </a>
+
+      <a class="card b-project"   style="animation-delay:.66s" href="https://github.com/yazdaninfo/McAfk" target="_blank" rel="noopener noreferrer" aria-label="McAfk: ربات AFK با Node.js و mineflayer">
+        <div class="icon-wrap"><i class="fa-brands fa-node-js icon" aria-hidden="true"></i></div>
+        <div class="card-text">
+          <div class="card-label">McAfk</div>
+          <span class="card-description">ربات AFK بازیکن با Node.js و mineflayer و رابط تلگرام</span>
+        </div>
+      </a>
+
     </div>
   </main>
 
