@@ -16,10 +16,10 @@
     }
 
     :root {
-      --bc: #00ff88;
-      --bg-primary: #0a0a0a;
-      --bg-card: rgba(255,255,255,.05);
-      --border-color: rgba(255,255,255,.12);
+      --bc: #ff3333;
+      --bg-primary: #000000;
+      --bg-card: rgba(255,0,0,.05);
+      --border-color: rgba(255,0,0,.2);
       --text-primary: rgba(255,255,255,.85);
       --text-secondary: rgba(255,255,255,.4);
       --text-muted: rgba(255,255,255,.18);
@@ -38,17 +38,15 @@
       overflow-x: hidden;
     }
 
-    /* subtle animated gradient overlay */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at 20% 30%, #1a1a2e 0%, #0a0a0a 80%);
+      background: radial-gradient(circle at 20% 30%, #1a0000 0%, #000000 80%);
       z-index: 0;
-      opacity: 0.6;
+      opacity: 0.8;
     }
 
-    /* particle / noise texture */
     body::after {
       content: '';
       position: fixed;
@@ -64,18 +62,17 @@
       z-index: 10;
       max-width: 880px;
       width: 100%;
-      background: rgba(20,8,8,.85);
+      background: rgba(10,0,0,.85);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border: 1px solid var(--border-color);
       border-radius: 2.5rem;
       padding: 3rem 2.5rem;
-      box-shadow: 0 25px 45px -12px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.04);
+      box-shadow: 0 25px 45px -12px rgba(255,0,0,.3), 0 0 0 1px rgba(255,0,0,.1);
       transition: all 0.2s;
       text-align: center;
     }
 
-    /* profile tag - matching site style */
     .profile-tag {
       display: inline-flex;
       align-items: center;
@@ -101,12 +98,11 @@
       margin-left: 0.2rem;
     }
 
-    /* 404 main — using site's neon green accent */
     .error-code {
       font-size: 9rem;
       font-weight: 800;
       line-height: 1;
-      background: linear-gradient(135deg, var(--bc), #66ffbb, var(--bc));
+      background: linear-gradient(135deg, #ff3333, #ff6666, #ff0000);
       background-size: 200% 200%;
       -webkit-background-clip: text;
       background-clip: text;
@@ -114,7 +110,7 @@
       animation: gradientShift 4s ease-in-out infinite alternate;
       letter-spacing: -6px;
       margin-bottom: 0.25rem;
-      text-shadow: 0 0 40px rgba(0,255,136,0.15);
+      text-shadow: 0 0 40px rgba(255,0,0,0.3);
     }
     @keyframes gradientShift {
       0% { background-position: 0% 50%; }
@@ -148,7 +144,6 @@
       font-weight: 600;
     }
 
-    /* social links - matching card style from site */
     .social-links {
       display: flex;
       flex-wrap: wrap;
@@ -171,7 +166,7 @@
       padding: 0.3rem 0.9rem;
       border-radius: 30px;
       transition: all 0.25s ease;
-      background: rgba(255,255,255,.02);
+      background: rgba(255,0,0,.02);
       border: 1px solid transparent;
     }
     .social-item i {
@@ -204,31 +199,30 @@
 
     .action-button {
       display: inline-block;
-      background: rgba(0,255,136,.15);
-      color: var(--bc);
+      background: rgba(255,0,0,.15);
+      color: #ff3333;
       font-weight: 600;
       padding: 0.85rem 2.6rem;
       border-radius: 60px;
       text-decoration: none;
       font-size: 1.1rem;
       letter-spacing: 0.3px;
-      border: 1px solid rgba(0,255,136,.2);
+      border: 1px solid rgba(255,0,0,.3);
       transition: all 0.25s ease;
-      box-shadow: 0 8px 18px -8px rgba(0,255,136,0.15);
+      box-shadow: 0 8px 18px -8px rgba(255,0,0,0.3);
       margin-top: 0.5rem;
     }
     .action-button i {
       margin-right: 0.5rem;
     }
     .action-button:hover {
-      background: rgba(0,255,136,.25);
-      border-color: var(--bc);
+      background: rgba(255,0,0,.25);
+      border-color: #ff3333;
       transform: scale(1.02);
-      box-shadow: 0 12px 28px -10px rgba(0,255,136,0.25);
-      color: var(--bc);
+      box-shadow: 0 12px 28px -10px rgba(255,0,0,0.4);
+      color: #ff3333;
     }
 
-    /* projects mini - matching site card style */
     .project-hint {
       margin-top: 2.2rem;
       display: flex;
@@ -242,14 +236,14 @@
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      background: rgba(255,255,255,.02);
+      background: rgba(255,0,0,.02);
       padding: 0.2rem 0.8rem;
       border-radius: 40px;
       border: 1px solid var(--border-color);
       transition: border-color .25s ease;
     }
     .project-hint span:hover {
-      border-color: rgba(0,255,136,.2);
+      border-color: rgba(255,0,0,.3);
     }
     .project-hint i {
       color: var(--bc);
@@ -257,7 +251,6 @@
       opacity: 0.7;
     }
 
-    /* footer - matching site */
     .footer-note {
       margin-top: 1.8rem;
       font-family: "JetBrains Mono", monospace;
@@ -273,7 +266,7 @@
       color: var(--bc);
     }
     .footer-note .neon {
-      color: rgba(0,255,136,.55);
+      color: rgba(255,0,0,.55);
     }
 
     @media (max-width: 600px) {
@@ -322,7 +315,7 @@
       </a>
     </div>
 
-    <a href="#" class="action-button">
+    <a href="https://yazdaninfo.github.io/en" class="action-button">
       <i class="fas fa-arrow-left"></i> take me home
     </a>
 
