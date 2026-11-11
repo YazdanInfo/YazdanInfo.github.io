@@ -248,7 +248,7 @@ function Overview() {
     ),
     React.createElement("h1", { style: { fontSize: 36, fontWeight: 800, marginBottom: 14 } }, "McAfk"),
     React.createElement("p", { style: { fontSize: 17, lineHeight: 1.6, color: "var(--muted)", maxWidth: 620 } },
-      "A Node.js Telegram bot that connects offline (cracked-auth) player bots to Minecraft servers and forwards in-game chat to Telegram groups, fully controlled through inline buttons with no slash commands required."),
+      "A Node.js Telegram bot that connects offline (cracked-auth) player bots to Minecraft servers and forwards in-game chat to Telegram groups, controlled through inline buttons."),
     React.createElement("div", { style: { display: "flex", gap: 12, flexWrap: "wrap", marginTop: 20 } },
       React.createElement("a", { href: "https://github.com/yazdaninfo/mcafk", className: "btn btn-primary" },
         React.createElement(Icon, { name: "terminal", size: 15 }), "View on GitHub",
@@ -264,7 +264,7 @@ function Overview() {
         React.createElement(Icon, { name: "fork", size: 14 }), stats ? stats.forks : "4", " forks"),
       React.createElement("span", { className: "stat", style: { color: "var(--coral)" } },
         React.createElement(Icon, { name: "shield", size: 14 }), stats ? stats.license : "MIT", " License"),
-      !stats && React.createElement("span", { style: { color: "#5a6270", fontStyle: "italic" } }, "(loading live stats…)")
+      !stats && React.createElement("span", { style: { color: "#5a6270", fontStyle: "italic" } }, " ")
     )
   );
 }
