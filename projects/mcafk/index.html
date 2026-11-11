@@ -178,7 +178,7 @@ const deploymentOptions = [
   { h: "systemd", p: "deploy/mcafk.service runs the process as a service; it exits 0 on a clean stop and 1 on a crash, so Restart=on-failure restarts only crashes." },
   { h: "Docker", p: "docker compose up -d --build, with data persisted in the /data volume via DATA_DIR. The image's HEALTHCHECK reports the container unhealthy if the health file goes stale." },
   { h: "Several managers on one box", p: "deploy/mcafk@.service is a systemd template for running more than one manager. Each needs its own bot token and DATA_DIR, since one token can only be polled by one process." },
-  { h: "Plain Node", p: "node --env-file=.env index.js (Node 22+), or export the environment variables yourself." },
+  { h: "Plain Node" },
 ];
 
 function useActiveSection(ids: string[]) {
