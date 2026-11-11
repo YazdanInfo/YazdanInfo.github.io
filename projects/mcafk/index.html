@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>McAfk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.25.6/babel.min.js"></script>
+<style>
+  :root{
+    --bg:#0b0d10; --panel:#15181d; --panel2:#1b1f26; --border:#2a2f38; --border-soft:#20252c;
+    --text:#eef1f5; --muted:#9aa3ae;
+    --amber:#f5a623; --sky:#38bdf8; --coral:#fb7185; --mono:#7dd3fc;
+    --sidebar-w:230px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:var(--amber);text-decoration:none;transition:color .15s ease}
+  a:hover{color:#ffc861}
+  ::selection{background:#f5a62333;color:var(--text)}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px}
+  ::-webkit-scrollbar-thumb:hover{background:#3a414f}
+  code{font-family:'JetBrains Mono',monospace;background:#0e0f12;border:1px solid var(--border-soft);
+    padding:2px 7px;border-radius:5px;font-size:13px;color:var(--mono)}
+  pre{font-family:'JetBrains Mono',monospace;background:#0e0f12;border:1px solid var(--border-soft);
+    padding:13px 15px;border-radius:9px;font-size:13px;color:var(--mono);overflow-x:auto;margin:10px 0 0}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-soft)}
+  th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:7px 15px;border-radius:999px;
+    border:1px solid var(--border-soft);background:var(--panel);font-size:13px}
+  .dot{width:7px;height:7px;border-radius:50%;flex:none}
+  .card{border:1px solid var(--border);background:var(--panel);border-radius:14px;overflow:hidden;
+    transition:border-color .15s ease, transform .15s ease}
+  .card:hover{border-color:#3a414f}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:10px;
+    font-weight:600;font-size:14px;border:1px solid transparent;transition:filter .15s ease, transform .1s ease}
+  .btn:hover{filter:brightness(1.08)}
+  .btn:active{transform:translateY(1px)}
+  .btn-primary{background:linear-gradient(90deg,var(--amber),#ffcb66);color:#1f1404;
+    box-shadow:0 4px 18px -6px rgba(245,166,35,0.45)}
+  .btn-secondary{background:var(--panel2);color:var(--text);border-color:var(--border-soft)}
+  section h2{position:relative;padding-left:14px}
+  section h2::before{content:"";position:absolute;left:0;top:3px;bottom:3px;width:3px;
+    border-radius:3px;background:linear-gradient(var(--amber),var(--sky))}
+  .shot{display:block;width:100%;height:auto;border-bottom:1px solid var(--border)}
+  .shot-caption{padding:13px 16px;font-size:13px;color:var(--muted)}
+  h1,h2,h3{margin:0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media (max-width:700px){.grid2,.grid3{grid-template-columns:1fr}}
+
+  .layout{display:flex;min-height:100vh}
+  .sidebar{width:var(--sidebar-w);flex:none;border-right:1px solid var(--border-soft);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:22px 16px;display:flex;flex-direction:column;gap:4px}
+  .sidebar .logo{display:flex;align-items:center;gap:9px;padding:0 8px 18px;font-weight:800;font-size:17px}
+  .sidebar a{display:block;color:var(--muted);font-size:14px;padding:9px 10px;border-radius:8px}
+  .sidebar a:hover{background:var(--panel);color:var(--text)}
+  .sidebar a.active{background:var(--panel2);color:var(--amber)}
+  .main{flex:1;min-width:0;max-width:820px;margin:0 auto;padding:40px 32px 80px}
+  .mobilebar{display:none;position:sticky;top:0;z-index:5;background:rgba(11,13,16,0.92);
+    backdrop-filter:blur(6px);border-bottom:1px solid var(--border-soft);padding:12px 18px;
+    align-items:center;gap:10px;font-weight:700}
+  @media (max-width:860px){
+    .sidebar{display:none}
+    .mobilebar{display:flex}
+    .main{max-width:100%}
+  }
+  section{scroll-margin-top:16px;margin-bottom:48px}
+  .cmd-row{border-top:1px solid var(--border-soft);padding:16px 0}
+  .cmd-row:first-child{border-top:none}
+  .tag{display:inline-block;font-size:11px;padding:3px 9px;border-radius:6px;background:#241e10;color:var(--amber);margin-left:8px}
+  .icon-row{display:flex;align-items:center;gap:7px}
+  .stat{display:flex;align-items:center;gap:6px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/plain" id="app-source">
+type Screenshot = { src: string; title: string; desc: string };
+type Command = { cmd: string; desc: string; usage?: string; example?: string; tag?: string };
+type Feature = { icon: string; title: string; desc: string };
+type Step = { n: number; title: string; body: React.ReactNode };
+
+const RAW = "https://raw.githubusercontent.com/YazdanInfo/McAfk/main/Images/";
+const REPO_API = "https://api.github.com/repos/YazdanInfo/McAfk";
+
+const ICONS: Record<string, string[]> = {
+  repeat: ["M17 1l4 4-4 4", "M3 11V9a4 4 0 0 1 4-4h14", "M7 23l-4-4 4-4", "M21 13v2a4 4 0 0 1-4 4H3"],
+  users: ["M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2", "M16 3.13a4 4 0 0 1 0 7.75", "M23 21v-2a4 4 0 0 0-3-3.87"],
+  cpu: ["M4 4h16v16H4z", "M9 9h6v6H9z", "M9 1v3", "M15 1v3", "M9 20v3", "M15 20v3", "M1 9h3", "M20 9h3", "M1 15h3", "M20 15h3"],
+  eye: ["M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"],
+  moon: ["M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"],
+  box: ["M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z", "M3.27 6.96 12 12.01l8.73-5.05", "M12 22.08V12"],
+  star: ["M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"],
+  fork: ["M6 3v12", "M18 9a9 9 0 0 1-9 9"],
+  link: ["M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6", "M15 3h6v6", "M10 14L21 3"],
+  shield: ["M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"],
+  terminal: ["M4 17l6-6-6-6", "M12 19h8"],
+  arrowright: ["M5 12h14", "M13 5l7 7-7 7"],
+};
+function Icon({ name, size = 16 }: { name: string; size?: number }) {
+  const paths = ICONS[name] || [];
+  return React.createElement("svg", {
+    width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+    stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round",
+    style: { flex: "none" }
+  }, paths.map((d, i) => React.createElement("path", { key: i, d })));
+}
+
+const navItems = [
+  ["overview", "Overview"], ["interface", "Interface"], ["features", "Features"],
+  ["requirements", "Requirements"], ["setup", "Setup"], ["commands", "Commands"],
+  ["usage", "Usage notes"], ["deployment", "Deployment"], ["architecture", "Architecture"],
+];
+
+const screenshots: Screenshot[] = [
+  { src: RAW + "telegram-menu.png", title: "Main Menu", desc: "Send /start to open it: Add Bot, My Bots, Forward, Watchlist, Digest toggle and Quiet hours, all as buttons." },
+  { src: RAW + "add-bot-demo.png", title: "Adding a Bot", desc: "Tap Add Bot, then send name, ip, port and optionally a client version in one message." },
+  { src: RAW + "chat-forward.png", title: "Chat Forwarding", desc: "Once /forward is set up in a group, everything the bot sees in-game shows up there in real time." },
+  { src: RAW + "walk.gif", title: "/walk command", desc: "Moves the bot a given distance in a direction: forward, back, left or right." },
+];
+
+const features: Feature[] = [
+  { icon: "repeat", title: "Auto-reconnect", desc: "Exponential backoff (5s → 10s → 20s → 40s → 60s), then a slower persistent retry every 5 minutes so a long outage still self-heals." },
+  { icon: "users", title: "Multi-bot management", desc: "Add, disconnect, reconnect and remove bots at any time, all from Telegram's inline buttons. No server access needed." },
+  { icon: "cpu", title: "Optional AI chat", desc: "A bot can answer in-game chat through an LLM, using your own encrypted API key, in mention-only or all-message mode." },
+  { icon: "eye", title: "Watchlist & alerts", desc: "Damage/death alerts with cause and coordinates, a player watchlist, and an hourly status digest across every bot." },
+  { icon: "moon", title: "Quiet hours", desc: "Routes the noisy, non-critical alerts into silent notifications during a window you set per user." },
+  { icon: "box", title: "Deployment-ready", desc: "systemd units, a Dockerfile, docker-compose, GitHub Actions and a built-in test suite ship with the repo." },
+];
+
+const requirements = [
+  ["Node.js", "≥ 22"], ["npm", "≥ 9"], ["Bun (if used instead of Node)", "≥ 1.0"],
+  ["Minecraft server", "offline-auth (cracked); online-mode servers are not supported"],
+];
+
+const commands: Command[] = [
+  { cmd: "/walk", desc: "Moves your bot in a given direction.", usage: "/walk [direction] [distance]", example: "/walk forward 2", tag: "movement" },
+  { cmd: "/auto", desc: "Repeats an action on a timer, currently walk. Offline bots skip runs until reconnected; automations resume after a restart.", usage: "/auto [botname] walk <direction> <steps> <seconds>", example: "/auto Steve walk forward 2 30-90", tag: "movement" },
+  { cmd: "/settings", desc: "Toggle menu for one bot: auto-eat, auto-respawn, health alerts, idle randomizer, auto-sleep, proximity alert, view distance, schedule window. /settings all applies a toggle to every bot you own at once.", usage: "/settings [bot]", tag: "config" },
+  { cmd: "/watch", desc: "Player watchlist. Alerts when a watched player joins or leaves a server one of your bots is on. Max 30 names.", usage: "/watch add <name> | /watch remove <name>", tag: "alerts" },
+  { cmd: "/autoreply", desc: "Automatic replies to in-game chat keywords. A trigger without * is a substring match; * matches any text. Up to 20 rules per bot, first match wins.", usage: "/autoreply [bot] add <trigger> | <reply> | [cooldown]", example: "/autoreply add ip * | play.example.com | 60", tag: "chat" },
+  { cmd: "/where", desc: "Coordinates, dimension, gamemode, difficulty, health and food, plus stats since the last connect.", tag: "status" },
+  { cmd: "/deaths", desc: "The last 10 deaths with time, cause, and where the bot died and respawned, plus an expandable inventory-at-death view.", tag: "status" },
+  { cmd: "/inventory", desc: "Stacked items and equipment currently carried by the bot.", tag: "status" },
+  { cmd: "/ai", desc: "Lets a bot answer in-game chat through an LLM. Auto-reply rules are checked first; replies are forced to one plain-text line and can never start with a command character.", usage: "/ai [bot] on|off|mode mention|all|persona <text>", tag: "ai" },
+  { cmd: "/keys", desc: "Private-chat wizard to add, test or switch your own API key (Anthropic, OpenAI, OpenRouter, Groq, or any OpenAI-compatible URL). Keys are AES-256-GCM encrypted at rest with a per-key random IV.", tag: "ai" },
+  { cmd: "/digest", desc: "Toggles an hourly summary: each bot's status, uptime, coordinates, health/food, players online, deaths and disconnects in the last hour.", tag: "status" },
+  { cmd: "/echo", desc: "Sends a message to Minecraft chat from one bot, or all online bots if none is named.", usage: "/echo [botname] [message]", example: "/echo yazdanbot hi guys", tag: "chat" },
+  { cmd: "/forward", desc: "Forwarding hub: per-destination filters (everything / chat+deaths / chat only), chosen bots, message batching, and an optional two-way relay.", tag: "chat" },
+  { cmd: "/quiet", desc: "Sets quiet hours so non-critical alerts (connects, reconnecting, digest) arrive silently; bans, deaths and low-health alerts stay audible regardless.", usage: "/quiet <start>-<end> | /quiet tz <zone>", example: "/quiet 23-7", tag: "config" },
+  { cmd: "/status", desc: "Manager uptime, memory per bot, your bots, forwards, server status, data file, backups, access mode, and the heartbeat state.", tag: "status" },
+];
+
+const setupSteps: Step[] = [
+  { n: 1, title: "Download the files", body: React.createElement("pre", null, "git clone https://github.com/yazdaninfo/mcafk") },
+  { n: 2, title: "Install dependencies", body: React.createElement("pre", null, "npm install") },
+  { n: 3, title: "Create a Telegram bot", body: "Open @BotFather on Telegram, send /newbot, and copy the bot token you're given." },
+  { n: 4, title: "Set the environment variable", body: React.createElement(React.Fragment, null,
+      React.createElement("pre", null, "cp .env.example .env"),
+      React.createElement("p", { style: { color: "var(--muted)", fontSize: 14, margin: "10px 0 0" } },
+        "Set your bot token and ", React.createElement("code", null, "ALLOWED_USER_IDS"),
+        " (your numeric Telegram ID). Left empty, the manager is closed to everyone; message the bot once and it replies with your ID.")) },
+  { n: 5, title: "Run it", body: React.createElement(React.Fragment, null,
+      React.createElement("pre", null, "npm start\n# or\nnode index.js"),
+      React.createElement("p", { style: { color: "var(--muted)", fontSize: 14, margin: "10px 0 0" } },
+        "A clean start prints a startup banner and the bot's @username once it's connected to Telegram.")) },
+];
+
+const deploymentOptions = [
+  { h: "systemd", p: "deploy/mcafk.service runs the process as a service; it exits 0 on a clean stop and 1 on a crash, so Restart=on-failure restarts only crashes." },
+  { h: "Docker", p: "docker compose up -d --build, with data persisted in the /data volume via DATA_DIR. The image's HEALTHCHECK reports the container unhealthy if the health file goes stale." },
+  { h: "Several managers on one box", p: "deploy/mcafk@.service is a systemd template for running more than one manager. Each needs its own bot token and DATA_DIR, since one token can only be polled by one process." },
+  { h: "Plain Node", p: "node --env-file=.env index.js (Node 22+), or export the environment variables yourself." },
+];
+
+function useActiveSection(ids: string[]) {
+  const [active, setActive] = React.useState(ids[0]);
+  React.useEffect(() => {
+    const onScroll = () => {
+      let current = ids[0];
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top < 140) current = id;
+      }
+      setActive(current);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return active;
+}
+
+function useRepoStats() {
+  const [stats, setStats] = React.useState<{ stars: number; forks: number; issues: number; license: string } | null>(null);
+  React.useEffect(() => {
+    let cancelled = false;
+    fetch(REPO_API).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => {
+      if (cancelled) return;
+      setStats({
+        stars: d.stargazers_count, forks: d.forks_count,
+        issues: d.open_issues_count, license: d.license?.spdx_id || "MIT",
+      });
+    }).catch(() => { /* keep null -> fallback shown */ });
+    return () => { cancelled = true; };
+  }, []);
+  return stats;
+}
+
+function Sidebar({ active }: { active: string }) {
+  return React.createElement("aside", { className: "sidebar" },
+    React.createElement("div", { className: "logo" },
+      React.createElement("img", { src: RAW + "mcafk.png", alt: "", style: { height: 22 } }),
+      "McAfk"
+    ),
+    navItems.map(([id, label]) => React.createElement("a", {
+      key: id, href: "#" + id, className: active === id ? "active" : ""
+    }, label)),
+    React.createElement("div", { style: { marginTop: "auto", paddingTop: 20 } },
+      React.createElement("a", { href: "https://github.com/yazdaninfo/mcafk", className: "btn btn-primary", style: { width: "100%", justifyContent: "center" } },
+        React.createElement(Icon, { name: "terminal", size: 15 }), "Repository")
+    )
+  );
+}
+
+function MobileBar() {
+  return React.createElement("div", { className: "mobilebar" },
+    React.createElement("img", { src: RAW + "mcafk.png", alt: "", style: { height: 20 } }),
+    "McAfk",
+    React.createElement("a", { href: "https://github.com/yazdaninfo/mcafk", style: { marginLeft: "auto", fontSize: 13 } }, "Repository")
+  );
+}
+
+function Overview() {
+  const stats = useRepoStats();
+  return React.createElement("section", { id: "overview" },
+    React.createElement("div", { className: "pill mono", style: { color: "var(--amber)", borderColor: "#3a2c10", background: "#1c160a", marginBottom: 18 } },
+      React.createElement("span", { className: "dot", style: { background: "var(--amber)" } }),
+      "Node.js · Mineflayer · Telegram Bot Interface"
+    ),
+    React.createElement("h1", { style: { fontSize: 36, fontWeight: 800, marginBottom: 14 } }, "McAfk"),
+    React.createElement("p", { style: { fontSize: 17, lineHeight: 1.6, color: "var(--muted)", maxWidth: 620 } },
+      "A Node.js Telegram bot that connects offline (cracked-auth) player bots to Minecraft servers and forwards in-game chat to Telegram groups, fully controlled through inline buttons with no slash commands required."),
+    React.createElement("div", { style: { display: "flex", gap: 12, flexWrap: "wrap", marginTop: 20 } },
+      React.createElement("a", { href: "https://github.com/yazdaninfo/mcafk", className: "btn btn-primary" },
+        React.createElement(Icon, { name: "terminal", size: 15 }), "View on GitHub",
+        React.createElement(Icon, { name: "arrowright", size: 15 })),
+      React.createElement("a", { href: "#setup", className: "btn btn-secondary" },
+        React.createElement(Icon, { name: "box", size: 15 }), "Jump to setup")
+    ),
+    React.createElement("div", { className: "mono", style: { display: "flex", gap: 22, flexWrap: "wrap", marginTop: 22, fontSize: 13, color: "var(--muted)" } },
+      React.createElement("span", null, "github.com/YazdanInfo/McAfk"),
+      React.createElement("span", { className: "stat", style: { color: "var(--amber)" } },
+        React.createElement(Icon, { name: "star", size: 14 }), stats ? stats.stars : "16", " stars"),
+      React.createElement("span", { className: "stat", style: { color: "var(--sky)" } },
+        React.createElement(Icon, { name: "fork", size: 14 }), stats ? stats.forks : "4", " forks"),
+      React.createElement("span", { className: "stat", style: { color: "var(--coral)" } },
+        React.createElement(Icon, { name: "shield", size: 14 }), stats ? stats.license : "MIT", " License"),
+      !stats && React.createElement("span", { style: { color: "#5a6270", fontStyle: "italic" } }, "(loading live stats…)")
+    )
+  );
+}
+
+function Interface() {
+  return React.createElement("section", { id: "interface" },
+    React.createElement("h2", { style: { fontSize: 22, marginBottom: 16 } }, "Telegram Interface"),
+    React.createElement("div", { className: "grid2" },
+      screenshots.map(s => React.createElement("div", { key: s.title, className: "card" },
+        React.createElement("img", { className: "shot", src: s.src, alt: s.title }),
+        React.createElement("div", { className: "shot-caption" },
+          React.createElement("strong", { style: { color: "var(--text)" } }, s.title), ": ", s.desc)
+      ))
+    )
+  );
+}
+
+function Features() {
+  return React.createElement("section", { id: "features" },
+    React.createElement("h2", { style: { fontSize: 22, marginBottom: 16 } }, "Features"),
+    React.createElement("div", { className: "grid3" },
+      features.map(f => React.createElement("div", { key: f.title, className: "card", style: { padding: 18 } },
+        React.createElement("div", { style: { color: "var(--amber)", marginBottom: 10 } }, React.createElement(Icon, { name: f.icon, size: 20 })),
+        React.createElement("strong", { style: { fontSize: 14 } }, f.title),
+        React.createElement("p", { style: { color: "var(--muted)", fontSize: 13, margin: "6px 0 0" } }, f.desc)
+      ))
+    )
+  );
+}
+
+function Requirements() {
+  return React.createElement("section", { id: "requirements" },
+    React.createElement("h2", { style: { fontSize: 22, marginBottom: 16 } }, "Requirements"),
+    React.createElement("div", { className: "card", style: { padding: "4px 20px" } },
+      React.createElement("table", null,
+        React.createElement("thead", null, React.createElement("tr", null,
+          React.createElement("th", null, "Requirement"), React.createElement("th", null, "Version / note"))),
+        React.createElement("tbody", null,
+          requirements.map(([k, v]) => React.createElement("tr", { key: k },
+            React.createElement("td", null, k), React.createElement("td", { style: { color: "var(--muted)" } }, v))))
+      )
+    )
+  );
+}
+
+function Setup() {
+  return React.createElement("section", { id: "setup" },
+    React.createElement("h2", { style: { fontSize: 22, marginBottom: 16 } }, "How to set it up"),
+    setupSteps.map(s => React.createElement("div", { key: s.n, className: "card", style: { padding: "16px 20px", marginBottom: 12 } },
+      React.createElement("div", { style: { display: "flex", gap: 14, alignItems: "flex-start" } },
+        React.createElement("div", { className: "mono", style: { width: 28, height: 28, borderRadius: 8, background: "var(--panel2)", border: "1px solid var(--border-soft)", display: "flex", alignItems: "center", justifyContent: "center", flex: "none", color: "var(--amber)", fontWeight: 600, fontSize: 13 } }, s.n),
+        React.createElement("div", { style: { flex: 1 } },
+          React.createElement("strong", { style: { fontSize: 14 } }, s.title),
+          typeof s.body === "string"
+            ? React.createElement("p", { style: { color: "var(--muted)", fontSize: 13, margin: "6px 0 0" } }, s.body)
+            : s.body
+        )
+      )
+    ))
+  );
+}
+
+function Commands() {
+  return React.createElement("section", { id: "commands" },
+    React.createElement("h2", { style: { fontSize: 22, marginBottom: 4 } }, "Full command reference"),
+    React.createElement("p", { style: { color: "var(--muted)", fontSize: 13, marginBottom: 14 } }, "Everything here is also reachable through buttons."),
+    React.createElement("div", { className: "card", style: { padding: "2px 20px" } },
+      commands.map(c => React.createElement("div", { key: c.cmd, className: "cmd-row" },
+        React.createElement("div", { style: { display: "flex", alignItems: "center", flexWrap: "wrap", gap: 6 } },
+          React.createElement("code", null, c.cmd),
+          c.tag && React.createElement("span", { className: "tag" }, c.tag)
+        ),
+        React.createElement("p", { style: { margin: "7px 0 0", fontSize: 13.5, color: "var(--text)" } }, c.desc),
+        c.usage && React.createElement("pre", null, c.usage),
+        c.example && React.createElement("pre", null, "$ " + c.example)
+      ))
+    )
+  );
+}
+
+function Usage() {
+  const rows = [
+    { h: "Private chat", p: "Send /start to open the main menu: Add Bot, list your bots with status, or open Help & Guide." },
+    { h: "Group forwarding", p: "Add the bot to a group and send /forward there, and every bot you own starts forwarding server chat. Two-way relay lets people type @BotName text to speak in-game; messages starting with / are never relayed." },
+    { h: "Access control", p: "ALLOWED_USER_IDS (comma-separated Telegram IDs) gates who can use the manager. Left empty, it's closed to everyone by default: a safety default after an earlier open-access version let strangers add bots until a VPS ran out of memory." },
+    { h: "Bot limits", p: "MAX_BOTS_PER_USER and MAX_BOTS_TOTAL cap how many bots one user, and the whole manager, can run (defaults: 5 and 20), chosen for a small VPS and adjustable after checking /status." },
+    { h: "Server addresses", p: "Hosts are lower-cased and must be a plain host name or IPv4 address. Private addresses (loopback, 10.x, 172.16-31.x, 192.168.x, link-local, localhost) are refused by default, since a bot connects from the machine running the manager." },
+    { h: "Auto-resume", p: "Bots that were running when the process stopped (a clean stop, a crash, an OOM kill or a reboot) reconnect on their own, spaced out so they don't all hit a server at once." },
+  ];
+  return React.createElement("section", { id: "usage" },
+    React.createElement("h2", { style: { fontSize: 22, marginBottom: 16 } }, "Usage notes"),
+    React.createElement("div", { className: "grid2" },
+      rows.map(r => React.createElement("div", { key: r.h, className: "card", style: { padding: 18 } },
+        React.createElement("strong", { style: { fontSize: 14 } }, r.h),
+        React.createElement("p", { style: { color: "var(--muted)", fontSize: 13, margin: "6px 0 0" } }, r.p)
+      ))
+    )
+  );
+}
+
+function Deployment() {
+  return React.createElement("section", { id: "deployment" },
+    React.createElement("h2", { style: { fontSize: 22, marginBottom: 6 } }, "Running it 24/7"),
+    React.createElement("p", { style: { color: "var(--muted)", fontSize: 13, marginBottom: 16 } },
+      "userdata.json is saved atomically, with rolling backups kept as userdata.json.bak1 through bak3. A corrupted file at startup is restored from the newest valid backup automatically."),
+    React.createElement("div", { className: "grid2" },
+      deploymentOptions.map(d => React.createElement("div", { key: d.h, className: "card", style: { padding: 18 } },
+        React.createElement("strong", { style: { fontSize: 14 } }, d.h),
+        React.createElement("p", { style: { color: "var(--muted)", fontSize: 13, margin: "6px 0 0" } }, d.p)
+      ))
+    ),
+    React.createElement("div", { className: "card", style: { padding: 18, marginTop: 18, borderColor: "#3a2420" } },
+      React.createElement("div", { className: "icon-row", style: { color: "var(--coral)", marginBottom: 6 } },
+        React.createElement(Icon, { name: "shield", size: 16 }),
+        React.createElement("strong", { style: { fontSize: 14 } }, "Before you run it")),
+      React.createElement("p", { style: { color: "var(--muted)", fontSize: 13, margin: 0 } },
+        "For educational purposes only. Don't connect bots to servers you don't own or have permission to test on: it may violate a server's Terms of Service and risk a ban. Check the server's own rules first.")
+    )
+  );
+}
+
+function Architecture() {
+  return React.createElement("section", { id: "architecture" },
+    React.createElement("h2", { style: { fontSize: 22, marginBottom: 16 } }, "Architecture"),
+    React.createElement("div", { className: "card" },
+      React.createElement("img", { className: "shot", style: { borderBottom: "none" }, src: RAW + "diagram.png", alt: "Architecture diagram" })
+    ),
+    React.createElement("p", { style: { color: "var(--muted)", fontSize: 13, marginTop: 14 } },
+      "index.js loads the src/ modules in order. They share one namespace (src/registry.js): each module registers its top-level names there, so call order never matters. The split is a first step, not a layered design; many modules still call into each other directly.")
+  );
+}
+
+function App() {
+  const ids = navItems.map(n => n[0]);
+  const active = useActiveSection(ids);
+  return React.createElement("div", { className: "layout" },
+    React.createElement(Sidebar, { active }),
+    React.createElement("main", { className: "main" },
+      React.createElement(MobileBar, null),
+      React.createElement(Overview, null),
+      React.createElement(Interface, null),
+      React.createElement(Features, null),
+      React.createElement(Requirements, null),
+      React.createElement(Setup, null),
+      React.createElement(Commands, null),
+      React.createElement(Usage, null),
+      React.createElement(Deployment, null),
+      React.createElement(Architecture, null)
+    )
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(React.createElement(App, null));
+</script>
+
+<script>
+  const src = document.getElementById("app-source").textContent;
+  const out = Babel.transform(src, {
+    presets: [["typescript", { isTSX: true, allExtensions: true }], "react"],
+    filename: "app.tsx"
+  }).code;
+  (0, eval)(out);
+</script>
+
+</body>
+</html>
